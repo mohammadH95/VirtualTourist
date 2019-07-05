@@ -33,7 +33,7 @@ class FlickerAPI {
         
         var stringValue: String {
             switch self {
-            case .getPhoto: return Endpoints.basePath + Endpoints.apiKeyParam + Endpoints.Method + "=flickr.photos.search" + Endpoints.Extras + "=url_m" + Endpoints.Format + "=json" + Endpoints.NoJSONCallback + "=1" + Endpoints.SafeSearch + "=1" + Endpoints.Page + "=\(FlickerAPI.pageNumber)" + Endpoints.PerPage + "=\(6)" + Endpoints.BoundingBox + bboxString(for: coordinates)
+            case .getPhoto: return Endpoints.basePath + Endpoints.apiKeyParam + Endpoints.Method + "=flickr.photos.search" + Endpoints.Extras + "=url_m" + Endpoints.Format + "=json" + Endpoints.NoJSONCallback + "=1" + Endpoints.SafeSearch + "=1" + Endpoints.Page + "=\(FlickerAPI.pageNumber)" + Endpoints.PerPage + "=\(6)" + Endpoints.BoundingBox + "=\(bboxString(for: coordinates))"
             }
         }
         

@@ -30,12 +30,6 @@ class CollectionViewController: UIViewController {
     @IBOutlet weak var newCollButton: UIBarButtonItem!
     @IBOutlet weak var label: UILabel!
     
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        setupFetchedResultsController()
-    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -70,10 +64,10 @@ class CollectionViewController: UIViewController {
     
     func getPhotos() {
         activateIndicator(start: true)
+        FlickerAPI.pageNumber = pageNumber
         
         FlickerAPI.getPhoto(coordinate: location.coordinate, pageNumber: pageNumber) { (urls, error) in
             DispatchQueue.main.async {
-                self.activateIndicator(start: false)
                 
                 guard error == nil else {
                     print(error?.localizedDescription ?? "")
@@ -85,12 +79,15 @@ class CollectionViewController: UIViewController {
                     return
                 }
                 
+                self.label.isHidden = true
+                
                 for url in urls {
                     let photo = Photo(context: self.dataController.viewContext)
                     photo.imageURL = url
                     photo.location = self.location
+                    try? self.dataController.viewContext.save()
                 }
-                try? self.dataController.viewContext.save()
+                self.activateIndicator(start: false)
             }
         }
         pageNumber += 1
@@ -100,7 +97,7 @@ class CollectionViewController: UIViewController {
         
         if WeHavePhotos {
             isDeleting = true
-            for photo in fetchedResultsController.fetchedObjects! {
+            for photo in fetchedResultsController.fetchedObjects ?? [] {
                 dataController.viewContext.delete(photo)
             }
             try? dataController.viewContext.save()
@@ -108,6 +105,7 @@ class CollectionViewController: UIViewController {
         }
         
         getPhotos()
+        
         
     }
     
@@ -132,7 +130,7 @@ extension CollectionViewController: UICollectionViewDataSource, UICollectionView
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCell", for: indexPath) as! CollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionCell", for: indexPath) as! CollectionViewCell
         
         let photo = fetchedResultsController.object(at: indexPath)
         
@@ -181,15 +179,22 @@ extension CollectionViewController: UICollectionViewDataSource, UICollectionView
 extension CollectionViewController: NSFetchedResultsControllerDelegate {
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        switch type {
-        case .insert:
-            collectionView.insertItems(at: [indexPath!])
+        if let indexPath = indexPath, type == .delete && !isDeleting {
+            collectionView.deleteItems(at: [indexPath])
             return
-        case .delete:
-            collectionView.deleteItems(at: [indexPath!])
-        case .move:
-            collectionView.moveItem(at: indexPath!, to: newIndexPath!)
-        case .update:
+        }
+        
+        if let indexPath = newIndexPath, type == .insert {
+            collectionView.insertItems(at: [indexPath])
+            return
+        }
+        
+        if let newIndexPath = newIndexPath, let oldIndexPath = indexPath, type == .move {
+            collectionView.moveItem(at: oldIndexPath, to: newIndexPath)
+            return
+        }
+        
+        if type != .update {
             collectionView.reloadData()
         }
     }

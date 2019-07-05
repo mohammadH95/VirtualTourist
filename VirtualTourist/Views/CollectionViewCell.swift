@@ -16,7 +16,9 @@ class CollectionViewCell: UICollectionViewCell {
     var photo: Photo? {
         willSet {
             if photo != nil {
-                return
+                if photo?.creationDate == newValue?.creationDate {
+                    return
+                }
             }
             
             guard let photo = newValue else { return }
