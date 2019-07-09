@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		612DAA5B22D48CE5002677A8 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 612DAA5A22D48CE5002677A8 /* Extension.swift */; };
 		617ACC2222BE800900DB91B6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617ACC2122BE800900DB91B6 /* AppDelegate.swift */; };
 		617ACC2722BE800900DB91B6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 617ACC2522BE800900DB91B6 /* Main.storyboard */; };
 		617ACC2922BE800B00DB91B6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 617ACC2822BE800B00DB91B6 /* Assets.xcassets */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		612DAA5A22D48CE5002677A8 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		617ACC1E22BE800900DB91B6 /* VirtualTourist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VirtualTourist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		617ACC2122BE800900DB91B6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		617ACC2622BE800900DB91B6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -49,6 +51,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		612DAA5922D48CC7002677A8 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				612DAA5A22D48CE5002677A8 /* Extension.swift */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
 		617ACC1522BE800900DB91B6 = {
 			isa = PBXGroup;
 			children = (
@@ -73,6 +83,7 @@
 				617ACC3522BE80AA00DB91B6 /* Model */,
 				617ACC3422BE808300DB91B6 /* Controllers */,
 				617ACC3622BE80EA00DB91B6 /* Views */,
+				612DAA5922D48CC7002677A8 /* Helper */,
 				617ACC3322BE805800DB91B6 /* Storyboards */,
 				617ACC2822BE800B00DB91B6 /* Assets.xcassets */,
 				617ACC2D22BE800B00DB91B6 /* Info.plist */,
@@ -193,6 +204,7 @@
 				617ACC3A22BE91F700DB91B6 /* CollectionViewController.swift in Sources */,
 				617ACC4022C0C11400DB91B6 /* DataController.swift in Sources */,
 				617ACC2222BE800900DB91B6 /* AppDelegate.swift in Sources */,
+				612DAA5B22D48CE5002677A8 /* Extension.swift in Sources */,
 				617ACC3C22BE932C00DB91B6 /* CollectionViewCell.swift in Sources */,
 				617ACC3822BE91D600DB91B6 /* MapViewController.swift in Sources */,
 				617ACC3E22C0B50600DB91B6 /* FlickerAPI.swift in Sources */,

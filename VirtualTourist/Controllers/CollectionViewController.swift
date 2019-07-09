@@ -141,8 +141,34 @@ extension CollectionViewController: UICollectionViewDataSource, UICollectionView
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let photo = fetchedResultsController.object(at: indexPath)
-        dataController.viewContext.delete(photo)
-        try? dataController.viewContext.save()
+        
+        let alert = UIAlertController(title: "What to do?", message: nil, preferredStyle: .actionSheet)
+        
+        alert.addAction(UIAlertAction(title: "Share", style: .default, handler: { (_) in
+            self.share(image: photo.imageview)
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { (_) in
+            self.dataController.viewContext.delete(photo)
+            try? self.dataController.viewContext.save()
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
+    func share(image: UIImage?) {
+        guard let image = image else { return }
+        
+        let controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+        
+        controller.completionWithItemsHandler = { (activity, completed, items, error) in
+            if completed {
+                self.alert(title: "Success", message: "saved successfully")
+            }
+        }
+        present(controller, animated: true, completion: nil)
     }
     
     
